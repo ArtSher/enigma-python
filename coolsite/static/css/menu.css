@@ -1,0 +1,80 @@
+/* Стилизуем главное меню */
+.menu {
+    background-color: #92bbf1;
+    width: 100%;
+    height: 100px;
+    font-family: 'Lobster';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+}
+.menu nav {
+    text-align: center;
+}
+.menu nav ul {
+
+    list-style-type: none;
+
+}
+.menu nav li {
+    margin-right: 40px;
+    display: inline;
+    margin-left: 40px;
+    margin-top: 20px;
+}
+.menu nav a {
+    text-decoration: none;
+}
+
+.logo {
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.logo img {
+  max-width: 50px;
+  height: 50px;
+}
+.logo:hover {
+    box-shadow: 0px 10px 20px 5px rgba(0, 0, 0, 0.5);
+    transform: translateY(-5px);
+}
+
+.logo-txt {
+    font-size: 40px;
+    border-radius: 4px;
+    padding: 5px;
+}
+.logo-txt:hover{
+    box-shadow: 0px 10px 20px 5px rgba(0, 0, 0, 0.5);
+    transform: translateY(-5px);
+}
+
+/* Стилизуем меню, которое находится слева */
+
+.menu-left {
+    padding: 5px;
+    background-color: #92bbf1;
+    margin-top: 30px;
+    margin-left: 10px;
+    width: 90px;
+    height: 270px;
+    position: fixed;
+    border: 2px solid black;
+    border-radius: 10px;
+
+}
+.menu-left nav a {
+    text-decoration: none;
+    color: black;
+}
+
+.menu-left nav li {
+    font-size: 16px;
+    display: block;
+}
+
+.menu-left nav li:hover {
+    background-color: white;
+}

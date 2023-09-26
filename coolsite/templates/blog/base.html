@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog Python</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/coolsite.css' %}">
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+</head>
+
+<body>
+{% include "blog/menu.html" %}
+<div class="content">
+{% block content %}
+{% endblock %}
+</div>
+</body>
+</html>

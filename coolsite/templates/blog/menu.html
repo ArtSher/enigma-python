@@ -1,0 +1,32 @@
+{% load static %}
+
+<div class="menu">
+    <nav>
+      <ul>
+          <li><a href={% url 'home' %} class="logo">
+            <img src="{% static 'img/icon.png' %}" alt="Логотип">
+            </a></li>
+          <li class="logo-txt">Enigma Python</li>
+          {% if user.is_authenticated %}
+          <li>{{ user.username }}, <a href="{% url 'account_logout' %}" class="btn btn-primary" > Выход </a> </li>
+          {% else %}
+          <li><a href="{% url 'account_login' %}" class="btn btn-primary" >Вход </a>
+            <a href="{% url 'account_signup' %}" class="btn btn-primary" > Регистрация</a>
+          {% endif %}
+      </ul>
+    </nav>
+
+</div>
+
+<div class="menu-left">
+    <nav>
+   {% for menu_items in menu %}
+    <li>
+        <a href="{% url menu_items.url_name %}">{{ menu_items.title }}</a>
+        {% if not forloop.last %}
+        <hr>
+        {% endif %}
+    </li>
+    {% endfor %}
+    </nav>
+</div>
