@@ -9,6 +9,7 @@
           <li class="logo-txt">Enigma Python</li>
           {% if user.is_authenticated %}
           <li>{{ user.username }}, <a href="{% url 'account_logout' %}" class="btn btn-primary" > Выход </a> </li>
+          <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
           {% else %}
           <li><a href="{% url 'account_login' %}" class="btn btn-primary" >Вход </a>
             <a href="{% url 'account_signup' %}" class="btn btn-primary" > Регистрация</a>
