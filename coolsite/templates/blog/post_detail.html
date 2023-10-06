@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if request.user == post.author %}
+    <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+    <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+{% endif %}
     <div class="post">
         {% if post.published_date %}
             <div class="date">
@@ -10,4 +14,25 @@
         <h1>{{ post.title }}</h1>
         <p>{{ post.text|linebreaksbr }}</p>
     </div>
+    <hr>
+    {% for comment in post.comments.all %}
+        <div>
+            <p>{{ comment.created_date }}</p>
+            <strong>{{ comment.author }}</strong>
+            <p>{{ comment.text|linebreaks }}</p>
+        </div>
+    {% empty %}
+        <p>Нет коментариев</p>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+    <h2>Оставить комментарий</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Отправить</button>
+    </form>
+    {% else %}
+    <h2>Авторизируйся и оставь коментарий</h2>
+    {% endif %}
 {% endblock %}

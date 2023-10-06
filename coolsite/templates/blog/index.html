@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-    <p>{% for post in post %}</p>
-     <div>
+        <p>{% for post in post %}</p>
             <p>published: {{ post.published_date }}</p>
             <p> {{ post.choice }}</p>
             <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1
             <p>{{ post.text|linebreaksbr|truncatewords:30 }}</p>
-     </div>
+            {% if not forloop.last %}
+            <hr>
+            {% endif %}
     {% endfor %}
 {% endblock %}
