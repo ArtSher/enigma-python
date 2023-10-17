@@ -22,11 +22,13 @@ def index(request):
 
 
 def syntax(request):
-    pass
+    post = Post.objects.filter(choice='Syntax').order_by('-published_date')
+    return render(request, 'blog/index.html', {'post': post, 'menu': menu})
 
 
 def web(request):
-    pass
+    post = Post.objects.filter(choice='Web').order_by('-published_date')
+    return render(request, 'blog/index.html', {'post': post, 'menu': menu})
 
 
 def ml(request):
@@ -53,7 +55,6 @@ def post_new(request):
     else:
         form = PostForm()
     return render(request, 'blog/post_new.html', {'form': form})
-
 
 
 def post_detail(request, pk):
