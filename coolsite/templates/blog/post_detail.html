@@ -1,18 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if request.user == post.author %}
-    <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-    <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-{% endif %}
+
+    {% if request.user == post.author %}
+        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+        <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+    {% endif %}
+
+    {% if post.published_date %}
+        <p>{{ post.published_date }}</p>
+    {% endif %}
+
     <div class="post">
-        {% if post.published_date %}
-            <div class="date">
-                {{ post.published_date }}
-            </div>
-        {% endif %}
-        <h1>{{ post.title }}</h1>
-        <p>{{ post.text|linebreaksbr }}</p>
+        <div class="post-img">
+            {% if post.img %}
+                <img src="{{ post.img.url }}"  alt="Post Image">
+            {% else %}
+                <img src="images/default_image.jpg"  alt="Image">
+            {% endif %}
+        </div>
+        <div class="post-text">
+            <h1>{{ post.title }}</h1>
+            <p>{{ post.text|linebreaksbr }}</p>
+        </div>
     </div>
     <hr>
     {% for comment in post.comments.all %}

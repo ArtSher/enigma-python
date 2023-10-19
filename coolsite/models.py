@@ -15,7 +15,7 @@ class Post(models.Model):
     choice = models.CharField(max_length=10, choices=AUTHOR_CHOICES, default='Syntax')
     title = models.CharField(max_length=200)
     text = models.TextField()
-    img = models.ImageField(upload_to='images/', default='default_image.jpg')
+    img = models.ImageField(upload_to='images/', default='images/default_image.jpg')
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 

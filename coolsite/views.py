@@ -32,11 +32,13 @@ def web(request):
 
 
 def ml(request):
-    pass
+    post = Post.objects.filter(choice='ML').order_by('-published_date')
+    return render(request, 'blog/index.html', {'post': post, 'menu': menu})
 
 
 def book(request):
-    pass
+    post = Post.objects.filter(choice='Book').order_by('-published_date')
+    return render(request, 'blog/index.html', {'post': post, 'menu': menu})
 
 
 def forum(request):
@@ -83,7 +85,7 @@ def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
 
     if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
             return redirect('home')
