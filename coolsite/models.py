@@ -18,6 +18,7 @@ class Post(models.Model):
     img = models.ImageField(upload_to='images/', default='images/default_image.jpg')
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
+    tags = models.ManyToManyField('TagPost', blank=True, related_name='tags')
 
     def publish(self):
         self.published_date = timezone.now()
@@ -38,3 +39,14 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+
+
+class TagPost(models.Model):
+    tag = models.CharField(max_length=100, db_index=True)
+    slug = models.SlugField(db_index=True, unique=True, max_length=100)
+
+    def __str__(self):
+        return self.tag
+
+    def get_absolute_url(self):
+        return reverse('post_by_tag', kwargs={'tag_slug': self.slug})

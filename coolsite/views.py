@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
+from django.utils.text import slugify
 
-from .forms import PostForm, CommentForm
-from .models import Post, Comment
+from .forms import PostForm, CommentForm, TagForm
+from .models import Post, Comment, TagPost
 
 
 
@@ -18,12 +19,24 @@ menu = [
 
 def index(request):
     post = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-    return render(request, 'blog/index.html', {'post': post, 'menu': menu})
+    tags = TagPost.objects.all()
+    context = {
+        'post': post,
+        'tags': tags,
+        'menu': menu
+    }
+    return render(request, 'blog/index.html', context=context)
 
 
 def syntax(request):
     post = Post.objects.filter(choice='Syntax').order_by('-published_date')
-    return render(request, 'blog/index.html', {'post': post, 'menu': menu})
+    tags = TagPost.objects.all()
+    context = {
+        'post': post,
+        'tags': tags,
+        'menu': menu
+    }
+    return render(request, 'blog/index.html', context=context)
 
 
 def web(request):
@@ -62,6 +75,7 @@ def post_new(request):
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     comments = Comment.objects.filter(post=post)
+    tags = TagPost.objects.all()
     form = CommentForm()
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -71,7 +85,17 @@ def post_detail(request, pk):
             comment.author = request.user
             comment.save()
 
-    return render(request, 'blog/post_detail.html', {'post': post, 'comments': comments, 'form': form})
+    context = {
+        'post': post,
+        'comments': comments,
+        'form': form,
+        'menu': menu,
+        'tags': tags,
+        'tagForm': TagForm
+
+    }
+
+    return render(request, 'blog/post_detail.html', context)
 
 
 def post_remove(request, pk):
@@ -93,3 +117,29 @@ def post_edit(request, pk):
         form = PostForm(instance=post)
 
     return render(request, 'blog/post_edit.html', {'form': form})
+
+
+def add_tag(request, pk):
+    post = Post.objects.get(pk=pk)
+    if request.method == 'POST':
+        tagForm = TagForm(request.POST)
+        if tagForm.is_valid():
+            tag_name = tagForm.cleaned_data['tag']
+            tag_slug = slugify(tag_name)
+            tag, created = TagPost.objects.get_or_create(tag=tag_name, slug=tag_slug)
+            post.tags.add(tag)
+            return redirect('post_detail', pk=post.pk)
+    else:
+        tagForm = TagForm()
+    context = {
+        'post': post,
+        'tagForm': tagForm
+    }
+    return render(request, 'add_tag.html', context)
+
+
+def post_by_tag(request, tag_slug):
+    tag = get_object_or_404(TagPost, slug=tag_slug)
+    post = tag.tags.all()
+
+    return render(request, 'blog/index.html', {'post': post})
