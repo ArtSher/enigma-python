@@ -2,10 +2,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.utils.text import slugify
+from django.core.paginator import Paginator
+from django.views.generic import ListView
 
 from .forms import PostForm, CommentForm, TagForm
 from .models import Post, Comment, TagPost
-
 
 
 menu = [
@@ -19,21 +20,23 @@ menu = [
 
 def index(request):
     post = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
+    paginator = Paginator(post, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     tags = TagPost.objects.all()
     context = {
-        'post': post,
-        'tags': tags,
-        'menu': menu
+        'post': page_obj,
+        'menu': menu,
+        'page_obj': page_obj,
+        'tags': tags
     }
     return render(request, 'blog/index.html', context=context)
 
 
 def syntax(request):
     post = Post.objects.filter(choice='Syntax').order_by('-published_date')
-    tags = TagPost.objects.all()
     context = {
         'post': post,
-        'tags': tags,
         'menu': menu
     }
     return render(request, 'blog/index.html', context=context)

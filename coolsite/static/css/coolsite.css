@@ -71,3 +71,17 @@ body {
     color: #800080;
     border-bottom-color: rgba(128, 0, 128, 0.2);
 }
+
+/* Стилизуем Пагинацию */
+.pagination {
+    font-size: 16px;
+    padding: 10px;
+    border: 2px solid #92bbf1;
+    justify-content: center;
+}
+.current-page{
+    padding: 5px;
+}
+.pagination a {
+    text-decoration: none;
+}

@@ -12,10 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -28,7 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,12 +36,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'crispy_forms',
+    'crispy_bootstrap4',
     'coolsite.apps.CoolsiteConfig',
 
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.vk',
+
+
 ]
 
 MIDDLEWARE = [
@@ -79,7 +80,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -116,7 +116,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -143,3 +142,6 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SITE_ID = 1
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+

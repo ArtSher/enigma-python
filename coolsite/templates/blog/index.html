@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <p>{% for post in post %}</p>
+    <p>{% for post in page_obj %}</p>
     <div class="post">
             <p>published: {{ post.published_date }}</p>
             <p> {{ post.choice }}</p>
@@ -12,12 +12,23 @@
                 <img src="images/default_image.jpg"  alt="Image">
             {% endif %}
             </div>
-            <h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1
+            <h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
             <p>{{ post.text|linebreaksbr|truncatewords:30 }}</p>
+    </div>
             {% if not forloop.last %}
             <hr>
             {% endif %}
-    </div>
     {% endfor %}
+
+
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">Предыдущий статьи</a>
+        {% endif %}
+        <span class="current-page">{{ page_obj.number }}</span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Загрузить следующие статьи</a>
+        {% endif %}
+    </div>
 
 {% endblock %}
