@@ -27,20 +27,20 @@ class BlogTests(TestCase):
         self.assertEqual(self.post.author, self.user)
 
     def test_post_list_view(self):
-        response = self.client.get(reverse('home'))
+        response = self.client.get(reverse('coolsite:home'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'blog/index.html')
+        self.assertTemplateUsed(response, 'coolsite/index.html')
 
     def test_post_detail_view(self):
         response = self.client.get('/post/1/')
         no_response = self.client.get('/post/5/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(no_response.status_code, 404)
-        self.assertTemplateUsed(response, 'blog/post_detail.html')
+        self.assertTemplateUsed(response, 'coolsite/post_detail.html')
         self.assertContains(response, 'New Post22')
 
     def test_post_create_view(self):
-        response = self.client.post(reverse('post_new'), {
+        response = self.client.post(reverse('coolsite:post_new'), {
             'title': 'New title',
             'text': 'New post text',
             'author': self.user
@@ -50,7 +50,7 @@ class BlogTests(TestCase):
         self.assertContains(response, 'New post text')
 
     def test_post_update_view(self):
-        response = self.client.post(reverse('post_edit', args='1'), {
+        response = self.client.post(reverse('coolsite:post_edit', args='1'), {
             'title': 'Title update',
             'text': 'Text update'
         })

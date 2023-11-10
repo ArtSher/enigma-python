@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for post in posts %}
+    <div class="post">
+            <p>published: {{ post.published_date }}</p>
+            <p> {{ post.choice }}</p>
+            <div class="post-img">
+            {% if post.img %}
+                <img src="{{ post.img.url }}"  alt="Post Image">
+            {% else %}
+                <img src="images/default_image.jpg"  alt="Image">
+            {% endif %}
+            </div>
+            <h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
+            <p>{{ post.text|linebreaksbr|truncatewords:30 }}</p>
+    </div>
+            {% if not forloop.last %}
+            <hr>
+            {% endif %}
+    {% endfor %}
+{% endblock %}

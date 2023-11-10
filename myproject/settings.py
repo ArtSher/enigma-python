@@ -25,6 +25,7 @@ SECRET_KEY = 'django-insecure-ea-vd=y@k=la+=j!$dztsoala18&3$&+imynh+=z!6v)!hv7-6
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+INTERNAL_IPS = ["127.0.0.1"]
 
 # Application definition
 
@@ -36,8 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'crispy_forms',
-    'crispy_bootstrap4',
     'coolsite.apps.CoolsiteConfig',
 
     'allauth',
@@ -45,8 +44,14 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.vk',
 
+    'debug_toolbar',
+
+    'crispy_forms',
+    'crispy_bootstrap4',
+
 
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -57,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'myproject.urls'

@@ -1,5 +1,5 @@
 
-<form method="post" action="{% url 'add_tag' pk=post.pk %} ">
+<form method="post" action="{% url 'coolsite:add_tag' pk=post.pk %} ">
     {% csrf_token %}
     {{ tagForm }}
     <button type="submit" class="btn btn-primary">Добавить тег</button>

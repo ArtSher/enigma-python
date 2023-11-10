@@ -5,22 +5,18 @@
     height: 100px;
     font-family: 'Lobster';
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
     border: 2px solid black;
 }
-.menu nav {
-    text-align: center;
-}
+
 .menu nav ul {
-
     list-style-type: none;
-
+    display: flex;
+    align-items: center;
 }
 .menu nav li {
-    margin-right: 40px;
-    display: inline;
-    margin-left: 40px;
+    margin-right: 20px;
     margin-top: 20px;
 }
 .menu nav a {
@@ -28,28 +24,16 @@
 }
 
 .logo {
-    display: inline-block;
-    margin-bottom: 10px;
+    padding-top: 20px;
 }
 
 .logo img {
-  max-width: 50px;
-  height: 50px;
-}
-.logo:hover {
-    box-shadow: 0px 10px 20px 5px rgba(0, 0, 0, 0.5);
-    transform: translateY(-5px);
+    min-width: 200px;
+    height: 80px;
+    margin-right: auto;
+    margin-left: 20px;
 }
 
-.logo-txt {
-    font-size: 40px;
-    border-radius: 4px;
-    padding: 5px;
-}
-.logo-txt:hover{
-    box-shadow: 0px 10px 20px 5px rgba(0, 0, 0, 0.5);
-    transform: translateY(-5px);
-}
 
 /* Стилизуем меню, которое находится слева */
 

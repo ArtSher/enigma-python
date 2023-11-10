@@ -12,12 +12,12 @@ class Post(models.Model):
         ('Book', 'Book Reviews'),
     )
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    choice = models.CharField(max_length=10, choices=AUTHOR_CHOICES, default='Syntax')
-    title = models.CharField(max_length=200)
-    text = models.TextField()
-    img = models.ImageField(upload_to='images/', default='images/default_image.jpg')
-    created_date = models.DateTimeField(default=timezone.now)
-    published_date = models.DateTimeField(blank=True, null=True)
+    choice = models.CharField(max_length=10, choices=AUTHOR_CHOICES, default='Syntax', verbose_name='Тема')
+    title = models.CharField(max_length=200, verbose_name='Заголовок')
+    text = models.TextField(verbose_name='Текст статьи')
+    img = models.ImageField(upload_to='images/', default='images/default_image.jpg', verbose_name='Изображение')
+    created_date = models.DateTimeField(default=timezone.now, verbose_name='Время создания')
+    published_date = models.DateTimeField(blank=True, null=True, verbose_name='Время публикации')
     tags = models.ManyToManyField('TagPost', blank=True, related_name='tags')
 
     def publish(self):
@@ -28,7 +28,7 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('post_detail', args=[str(self.pk)])
+        return reverse('coolsite:post_detail', args=[str(self.pk)])
 
 
 class Comment(models.Model):
@@ -36,9 +36,13 @@ class Comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
+    parent_comment = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.text
+
+    def get_replies(self):
+        return Comment.objects.filter(parent_comment=self).order_by('created_date')
 
 
 class TagPost(models.Model):
@@ -49,4 +53,4 @@ class TagPost(models.Model):
         return self.tag
 
     def get_absolute_url(self):
-        return reverse('post_by_tag', kwargs={'tag_slug': self.slug})
+        return reverse('coolsite:post_by_tag', kwargs={'tag_slug': self.slug})

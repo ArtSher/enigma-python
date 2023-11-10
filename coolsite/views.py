@@ -4,16 +4,17 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.core.paginator import Paginator
 from django.views.generic import ListView
+from django.contrib.auth.models import User
 
-from .forms import PostForm, CommentForm, TagForm
+from .forms import PostForm, TagForm, CommentForm
 from .models import Post, Comment, TagPost
 
 
 menu = [
-    {'url_name': 'syntax', 'title': 'Синтаксис'},
+    {'url_name': 'syntax', 'title': 'Syntax'},
     {'url_name': 'web', 'title': 'Web'},
     {'url_name': 'ml', 'title': 'ML'},
-    {'url_name': 'book', 'title': 'Книги'},
+    {'url_name': 'book', 'title': 'Book'},
     {'url_name': 'forum', 'title': 'Форум'}
 ]
 
@@ -23,39 +24,21 @@ def index(request):
     paginator = Paginator(post, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    tags = TagPost.objects.all()
     context = {
         'post': page_obj,
         'menu': menu,
         'page_obj': page_obj,
-        'tags': tags
     }
-    return render(request, 'blog/index.html', context=context)
+    return render(request, 'coolsite/index.html', context=context)
 
 
-def syntax(request):
-    post = Post.objects.filter(choice='Syntax').order_by('-published_date')
+def post_list_by_topic(request, topic):
+    posts = Post.objects.filter(choice=topic).order_by('-published_date')
     context = {
-        'post': post,
+        'posts': posts,
         'menu': menu
     }
-    return render(request, 'blog/index.html', context=context)
-
-
-def web(request):
-    post = Post.objects.filter(choice='Web').order_by('-published_date')
-    return render(request, 'blog/index.html', {'post': post, 'menu': menu})
-
-
-def ml(request):
-    post = Post.objects.filter(choice='ML').order_by('-published_date')
-    return render(request, 'blog/index.html', {'post': post, 'menu': menu})
-
-
-def book(request):
-    post = Post.objects.filter(choice='Book').order_by('-published_date')
-    return render(request, 'blog/index.html', {'post': post, 'menu': menu})
-
+    return render(request, 'coolsite/post_list_by_topic.html', context)
 
 def forum(request):
     pass
@@ -69,10 +52,10 @@ def post_new(request):
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('coolsite:post_detail', pk=post.pk)
     else:
         form = PostForm()
-    return render(request, 'blog/post_new.html', {'form': form})
+    return render(request, 'coolsite/post_new.html', {'form': form})
 
 
 def post_detail(request, pk):
@@ -98,13 +81,13 @@ def post_detail(request, pk):
 
     }
 
-    return render(request, 'blog/post_detail.html', context)
+    return render(request, 'coolsite/post_detail.html', context)
 
 
 def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
-    return redirect('home')
+    return redirect('coolsite:home')
 
 
 @login_required
@@ -115,11 +98,11 @@ def post_edit(request, pk):
         form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('coolsite:home')
     else:
         form = PostForm(instance=post)
 
-    return render(request, 'blog/post_edit.html', {'form': form})
+    return render(request, 'coolsite/post_edit.html', {'form': form})
 
 
 def add_tag(request, pk):
@@ -131,18 +114,26 @@ def add_tag(request, pk):
             tag_slug = slugify(tag_name)
             tag, created = TagPost.objects.get_or_create(tag=tag_name, slug=tag_slug)
             post.tags.add(tag)
-            return redirect('post_detail', pk=post.pk)
+            return redirect('coolsite:post_detail', pk=post.pk)
     else:
         tagForm = TagForm()
     context = {
         'post': post,
         'tagForm': tagForm
     }
-    return render(request, 'add_tag.html', context)
+    return render(request, 'coolsite:add_tag.html', context)
 
 
 def post_by_tag(request, tag_slug):
     tag = get_object_or_404(TagPost, slug=tag_slug)
-    post = tag.tags.all()
+    posts = tag.tags.all()
+    context = {
+        'posts': posts,
+        'menu': menu
+    }
+    return render(request, 'coolsite/tag_post.html', context)
 
-    return render(request, 'blog/index.html', {'post': post})
+
+
+
+

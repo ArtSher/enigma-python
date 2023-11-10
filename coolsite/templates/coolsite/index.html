@@ -12,7 +12,7 @@
                 <img src="images/default_image.jpg"  alt="Image">
             {% endif %}
             </div>
-            <h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
+            <h1><a href="{% url 'coolsite:post_detail' post.pk %}">{{ post.title }}</a></h1>
             <p>{{ post.text|linebreaksbr|truncatewords:30 }}</p>
     </div>
             {% if not forloop.last %}
