@@ -15,7 +15,6 @@ menu = [
     {'url_name': 'web', 'title': 'Web'},
     {'url_name': 'ml', 'title': 'ML'},
     {'url_name': 'book', 'title': 'Book'},
-    {'url_name': 'forum', 'title': 'Форум'}
 ]
 
 
@@ -39,9 +38,6 @@ def post_list_by_topic(request, topic):
         'menu': menu
     }
     return render(request, 'coolsite/post_list_by_topic.html', context)
-
-def forum(request):
-    pass
 
 
 def post_new(request):

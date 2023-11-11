@@ -85,3 +85,11 @@ body {
 .pagination a {
     text-decoration: none;
 }
+/* Логотип Footer  */
+.footer {
+    display: flex;
+    justify-content: center;
+}
+.footer a img {
+    width: 400px;
+}

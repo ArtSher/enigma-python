@@ -1,12 +1,10 @@
 from django.urls import path
-from django.views.generic import ListView
-
 from . import views
+
 
 app_name = 'coolsite'
 urlpatterns = [
     path('', views.index, name='home'),
-    path('forum/', views.forum, name='forum'),
     path('post/<int:pk>/', views.post_detail, name='post_detail'),
     path('post/new/', views.post_new, name='post_new'),
     path('post/<pk>/remove/', views.post_remove, name='post_remove'),
